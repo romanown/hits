@@ -34,7 +34,7 @@ class HitsModule extends ApiWebModule
 
     protected function getDefaultUrl()
     {
-        return '/api/Hits/Hits';
+        return '/api/hits/hits';
     }
 
     public function getChildrenItems()
@@ -45,7 +45,7 @@ class HitsModule extends ApiWebModule
         return [
             [
                 'label' => 'Hits',
-                'url' => ['/api/Hits/Hits/hits'],
+                'url' => ['/api/hits/hits/hits'],
             ],
         ];
     }

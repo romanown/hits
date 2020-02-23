@@ -1,0 +1,117 @@
+<style>
+	.item-photo-image {
+		width: 200px;
+		min-height: 200px;
+		float: left;
+	}
+	.item-photo-upload {
+		min-height: 200px;
+		float: left;
+		margin-left: 30px;
+	}
+	.item-photo {
+		margin-bottom: 7px;
+		border-bottom: 1px solid lightgray;
+	}
+</style>
+
+<div class="ui-dialog-titlebar ui-widget-header ui-corner-all ui-helper-clearfix">
+    <h3 class="ui-dialog-title">Салон №{{ itemId }}</h3>
+</div>
+<div class="ui-dialog-content ui-widget-content">
+    <div class="fluid">
+        <div class="formRow" ng-if="item.id">
+            <div class="grid4">
+                <label>ИД:</label>
+            </div>
+            <div class="grid8">
+                {{ itemId }}
+            </div>
+        </div>
+        <div class="formRow">
+            <div class="grid4">
+                <label>Активен:</label>
+            </div>
+            <div class="grid8">
+                <select ng-model="item.is_active" ng-options="activity.value as activity.name for activity in [{value: '0', name: 'Нет'}, {value: '1', name: 'Да'}]"></select>
+            </div>
+        </div>
+        <div class="formRow">
+            <div class="grid4">
+                <label>Название:</label>
+            </div>
+            <div class="grid8">
+                <input type="text" ng-model="item.name">
+            </div>
+        </div>
+        <div class="formRow">
+            <div class="grid4">
+                <label>Город:</label>
+            </div>
+            <div class="grid8">
+                <input type="text" ng-model="item.city">
+            </div>
+        </div>
+		<div class="formRow">
+			<div class="grid4">
+				<label>Адрес:</label>
+			</div>
+			<div class="grid8">
+				<input type="text" ng-model="item.address">
+			</div>
+		</div>
+		<div class="formRow">
+			<div class="grid4">
+				<label>Рабочее время:</label>
+			</div>
+			<div class="grid8">
+				<input type="text" ng-model="item.work_time">
+			</div>
+		</div>
+		<div class="formRow">
+			<div class="grid4">
+				<label>Контакты:</label>
+			</div>
+			<div class="grid8">
+				<input type="text" ng-model="item.contacts">
+			</div>
+		</div>
+        <div class="formRow" ng-if="item.id">
+            <div class="grid4">
+                Фото:
+            </div>
+            <div class="grid8">
+				<div class="item-photo" ng-repeat="photo in item.photos">
+					<div class="item-photo-image">
+						<img ng-src="{{ photo['url'] }}" style="max-width: 100%; max-height: 100%;">
+					</div>
+					<div class="item-photo-upload">
+						<div ngf-select ngf-change="upload($files, photo.id)" accept=".jpg,.png" ng-show="!uploading[photo.id]">Загрузить</div>
+						<span ng-if="uploading[photo.id]">загрузка...</span>
+
+						<br>
+						<a ng-click="remove(photo.id)" ng-if="!uploading[photo.id]">Удалить</a>
+					</div>
+					<div class="clear"></div>
+				</div>
+				<div class="item-photo item-photo-new">
+					<div class="item-photo-image">
+						<br>
+					</div>
+					<div class="item-photo-upload">
+						<div ngf-select ngf-change="upload($files)" accept=".jpg,.png" ng-show="!uploadingNew">Добавить</div>
+						<span ng-if="uploadingNew">загрузка...</span>
+					</div>
+					<div class="clear"></div>
+				</div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
+    <div class="ui-dialog-buttonset">
+        <span ng-show="message">{{ message }}</span>
+        <button class="buttonS bGreen" ng-click="close()">Закрыть</button>
+        <button class="buttonS bGreen" ng-click="save()">Сохранить</button>
+    </div>
+</div>

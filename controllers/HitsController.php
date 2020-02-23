@@ -28,6 +28,11 @@ class HitsController extends Controller
         $this->render('index', ['isOnly' => false]);
     }
 	
+	public function actionHits()
+    {
+        $this->render('hits', ['isOnly' => false]);
+    }
+	
     public function actionList()
     {
         /** @var \ApiHits[] $models */
