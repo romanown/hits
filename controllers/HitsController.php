@@ -25,7 +25,7 @@ class HitsController extends Controller
 
     public function actionIndex()
     {
-        $this->render('index', ['isOnlyProspective' => false]);
+        $this->render('index', ['isOnly' => false]);
     }
 	
     public function actionList()
@@ -64,10 +64,13 @@ class HitsController extends Controller
             $model = new ApiHits();
         }
         $model->name = isset($_POST['name']) ? $_POST['name'] : '';
+		$model->url = isset($_POST['url']) ? $_POST['url'] : '';
         $model->is_active = isset($_POST['is_active']) ? intval($_POST['is_active']) : 0;
         $model->city = isset($_POST['city']) ? $_POST['city'] : '';
-        $model->address = isset($_POST['address']) ? $_POST['address'] : '';
-        $model->work_time = isset($_POST['work_time']) ? $_POST['work_time'] : '';
+        $model->text = isset($_POST['text']) ? $_POST['text'] : '';
+		$model->title = isset($_POST['title']) ? $_POST['title'] : '';
+		$model->h1 = isset($_POST['description']) ? $_POST['h1'] : '';
+        $model->description = isset($_POST['description']) ? $_POST['description'] : '';
         $model->contacts = isset($_POST['contacts']) ? $_POST['contacts'] : '';
         $model->save();
 
@@ -110,8 +113,8 @@ class HitsController extends Controller
 
         $bFile = BFile::model()->createAndSaveByUploadFileInfo($_FILES['file'], $bFile);
 
-        $bFile->owner_type = 'cert';
-        $bFile->owner_type_prop = 'cert_photo';
+        $bFile->owner_type = 'hits';
+        $bFile->owner_type_prop = 'hits_photo';
         $bFile->owner_id = $model->id;
 
         $bFile->save();
@@ -121,4 +124,6 @@ class HitsController extends Controller
         header('Content-Type: application/json');
         echo json_encode($model->toArray());
     }
+
+
 }

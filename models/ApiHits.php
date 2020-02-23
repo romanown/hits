@@ -5,7 +5,7 @@
  * @property string $date_create
  * @property string $name
  *
- * @property ApiCertBrand[] $apiCertBrands
+
  */
 class ApiHits extends CActiveRecord
 {
@@ -32,7 +32,7 @@ class ApiHits extends CActiveRecord
 
     /**
      * @param string $className active record class name.
-     * @return \ApiCert the static model class
+     * @return \ApiHits the static model class
      */
     public static function model($className = __CLASS__)
     {
@@ -87,60 +87,48 @@ class ApiHits extends CActiveRecord
         return $imageUrls;
     }
 
-    public function getIdsByBrandAndRootSectionCode($brand, $rootSectionCode)
-    {
-        $hitsIds = [];
-        $hitsId = self::getIdByName($brand);
-        if ($hitsId) {
-            $hitsIds[] = $hitsId;
-        }
-
-        $brandLowered = trim(mb_strtolower($brand, 'UTF-8'));
-        if ($rootSectionCode == 'shoes') {
-            if (in_array($brandLowered, ['marc jacobs', 'nina ricci', 'chloe', 'jil sander', 'viktor & rolf', 'john gilliano'])) {
-                $hitsIds[] = self::getIdByName("O.L.G.(обувь M Jacobs N Ricci J Sander)");
-            }
-
-            if (in_array($brandLowered, ['emillio pucci', 'marc by marc jacobs', 'christian lacroix', 'donna karan', 'kenzo', 'givenchy'])) {
-                $hitsIds[] = self::getIdByName("Rossimoda ( M by M Jacobs Kenzo Givenchy)");
-            }
-        }
-
-        return $hitsIds;
-    }
-
     private static function getIdByName($name)
     {
         $command = Yii::app()->db->createCommand("SELECT id FROM api_hits WHERE name=:name");
         $command->bindValue(':name', $name);
         return $command->queryScalar();
     }
-
-    public function getBrands()
+	
+	public static function getIdByUrl($url)
     {
-        $brandNames = [];
-        if ($this->apiCertBrands) {
-            foreach ($this->apiCertBrands as $apiCertBrand) {
-                $brandNames[] = $apiCertBrand->getBrandName();
-            }
-        }
-        return $brandNames;
+        $command = Yii::app()->db->createCommand("SELECT id FROM api_hits WHERE url=:url");
+        $command->bindValue(':url', $url);
+        return $command->queryScalar();
     }
 
-    public function getDataIndexedByBrandIds()
+	public function toArray()
     {
-        $data = [];
-        if ($this->apiCertBrands) {
-            foreach ($this->apiCertBrands as $apiCertBrand) {
-                if (!isset($data[$apiCertBrand->brand_id])) {
-                    $data[$apiCertBrand->brand_id] = [
-                        'sections' => [],
-                        'brand' => $apiCertBrand->brand,
-                    ];
-                }
-                $data[$apiCertBrand->brand_id]['sections'][] = $apiCertBrand->rootSection;
-            }
+        $bFiles = BFile::model()->findAllByAttributes(['owner_id' => $this->id, 'owner_type' => 'hits', 'owner_type_prop' => 'hits_photo']);
+
+        $photos = [];
+        foreach ($bFiles as $bFile) {
+            $photos[] = [
+                'url' => $bFile->getResizedPhotoUrl('very_huge'),
+                'id' => $bFile->ID,
+            ];
         }
+
+        $data = [
+            'id' => $this->id,
+            'name' => $this->name,
+            'is_active' => $this->is_active,
+            'text' => $this->text,
+            'url' => '/hits/?id='.$this->id,
+            'city' => $this->city,
+            'title' => $this->title,
+			'h1' => $this->h1,
+            'contacts' => $this->contacts,
+            'description' => $this->description,
+            'photos' => $photos,
+        ];
+
+        $data['site_url'] = Yii::app()->params['frontendUrl'] . $data['url'];
+
         return $data;
     }
 }
