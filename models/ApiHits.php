@@ -11,7 +11,7 @@ class ApiHits extends CActiveRecord
 {
     public function tableName()
     {
-        return 'api_cert';
+        return 'api_hits';
     }
 
     public function rules()

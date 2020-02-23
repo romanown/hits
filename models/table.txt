@@ -1,0 +1,33 @@
+SET NAMES 'utf8';
+
+--
+-- Установка базы данных по умолчанию
+--
+USE db_dev_parad_shoes;
+
+--
+-- Создать таблицу `api_hits`
+--
+CREATE TABLE api_hits (
+  id int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+  name varchar(255) NOT NULL,
+  is_active int(1) UNSIGNED NOT NULL DEFAULT 1,
+  city varchar(255) DEFAULT NULL,
+  h1 varchar(255) DEFAULT NULL,
+  title varchar(255) DEFAULT NULL,
+  contacts varchar(255) DEFAULT NULL,
+  text varchar(255) DEFAULT NULL,
+  description varchar(255) DEFAULT NULL,
+  `order` int(10) UNSIGNED NOT NULL DEFAULT 1,
+  created datetime NOT NULL DEFAULT NOW(),
+  PRIMARY KEY (id),
+  UNIQUE INDEX UK_api_hits_id (id)
+)
+ENGINE = INNODB,
+AUTO_INCREMENT = 0,
+AVG_ROW_LENGTH = 0,
+CHARACTER SET utf8,
+COLLATE utf8_unicode_ci;
+
+ALTER TABLE api_hits
+ADD INDEX IDX_api_hits_created (created);

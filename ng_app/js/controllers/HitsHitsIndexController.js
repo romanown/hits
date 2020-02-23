@@ -10,7 +10,7 @@ angular.module('apiApp.controllers').controller('HitsHitsIndexController', ['$sc
 
         $http({
             method: 'POST',
-            url: '/api/marketer/shop/delete',
+            url: '/api/hits/hits/delete',
             data: $.param({
                 id: id
             }),
