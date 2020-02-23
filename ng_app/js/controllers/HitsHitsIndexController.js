@@ -4,7 +4,7 @@ angular.module('apiApp.controllers').controller('HitsHitsIndexController', ['$sc
     $scope.currentPage = 1;
 
     $scope.remove = function(id) {
-        if (!confirm('Вы уверены, что хотите УДАЛИТЬ салон?')) {
+        if (!confirm('Вы уверены, что хотите УДАЛИТЬ хит?')) {
             return;
         }
 
@@ -43,11 +43,11 @@ angular.module('apiApp.controllers').controller('HitsHitsIndexController', ['$sc
 
     $scope.create = function() {
         var modalInstance = $uibModal.open({
-            templateUrl: '/ng_app/views/HitsHitsView.html',
+            templateUrl: '/ng_app/views/HitsHitsNew.html',
             controller: 'HitsHitsViewController',
             windowTemplateUrl: '/ng_app/views/window.html',
             resolve: {
-                itmeId: function () {
+                itemId: function () {
                     return null;
                 }
             }

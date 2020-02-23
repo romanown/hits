@@ -17,6 +17,14 @@ angular.module('apiApp.controllers').controller('HitsHitsViewController', ['$sco
             $scope.refreshWindow();
         });
     };
+	
+	$scope.create = function() {
+        $http({method: 'GET', url: '/api/hits/hits/create', params: {id: null}}).then(function(response) {
+            $scope.item = response.data;
+
+            $scope.refreshWindow();
+        });
+    };
 
     $scope.refreshWindow = function() {
         $('.ui-dialog-content').css('max-height', parseInt($(window).height()) - 200);
@@ -98,4 +106,8 @@ angular.module('apiApp.controllers').controller('HitsHitsViewController', ['$sco
     if ($scope.itemId) {
         $scope.fetch();
     }
+	else
+	{
+		$scope.create();
+	}
 }]);

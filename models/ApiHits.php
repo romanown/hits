@@ -18,18 +18,18 @@ class ApiHits extends CActiveRecord
     {
         return [
             ['name', 'required'],
-            ['date_create', 'safe'],
+            ['created', 'safe'],
         ];
     }
 
     public function relations()
     {
         return [
-            'apiHitsText' => [self::HAS_MANY, 'ApiHitsText', 'hits_id'],
-			'apiHitsImage' => [self::HAS_MANY, 'ApiHitsImage', 'hits_id'],
+           
         ];
     }
-
+			// 'apiHitsText' => [self::HAS_MANY, 'ApiHitsText', 'hits_id'],
+			//'apiHitsImage' => [self::HAS_MANY, 'ApiHitsImage', 'hits_id'],
     /**
      * @param string $className active record class name.
      * @return \ApiHits the static model class
@@ -94,10 +94,10 @@ class ApiHits extends CActiveRecord
         return $command->queryScalar();
     }
 	
-	public static function getIdByUrl($url)
+	public static function getIdByUrl($pageurl)
     {
-        $command = Yii::app()->db->createCommand("SELECT id FROM api_hits WHERE url=:url");
-        $command->bindValue(':url', $url);
+        $command = Yii::app()->db->createCommand("SELECT id FROM api_hits WHERE pageurl=:pageurl");
+        $command->bindValue(':pageurl', $pageurl);
         return $command->queryScalar();
     }
 

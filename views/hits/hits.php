@@ -4,7 +4,7 @@
  */
 
 $this->ngApp = 'apiApp';
-$this->ngController = 'HitsIndexController';
+$this->ngController = 'HitsHitsIndexController';
 $this->pageTitle = Yii::app()->name.' - Хиты';
 ?>
 
@@ -18,7 +18,7 @@ $this->pageTitle = Yii::app()->name.' - Хиты';
 <div class="ajax-loader" ng-show="itemsLoading"></div>
 
 <br>
-<button class="buttonS bGreen" ng-click="create()" ng-cloak ng-show="false">Добавить</button>
+<button class="buttonS bGreen" ng-click="create()" ng-cloak ng-show="true">Добавить</button>
 
 <div class="widget" ng-cloak ng-show="!itemsLoading && items && items.length">
 	<table class="tDefault shops-table" width="100%">

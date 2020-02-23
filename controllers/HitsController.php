@@ -63,13 +63,37 @@ class HitsController extends Controller
 
     public function actionSave()
     {
+        if (isset($_POST['id']) && !is_null($_POST['id'])&& !empty($_POST['id'])) {
+            $model = ApiHits::model()->findByPk($_POST['id']);
+        } else {
+            $model = new ApiHits();
+        }
+        $model->name = isset($_POST['name']) ? $_POST['name'] : 'NewHit';
+		//$model->url = isset($_POST['url']) ? $_POST['url'] : '';
+        $model->is_active = isset($_POST['is_active']) ? intval($_POST['is_active']) : 0;
+        $model->city = isset($_POST['city']) ? $_POST['city'] : '';
+        $model->text = isset($_POST['text']) ? $_POST['text'] : '';
+		$model->title = isset($_POST['title']) ? $_POST['title'] : '';
+		$model->h1 = isset($_POST['h1']) ? $_POST['h1'] : '';
+        $model->description = isset($_POST['description']) ? $_POST['description'] : '';
+        $model->contacts = isset($_POST['contacts']) ? $_POST['contacts'] : '';
+        $model->save();
+
+        $model->refresh();
+
+        header('Content-Type: application/json');
+        echo json_encode($model->toArray());
+    }
+	
+	public function actionCreate()
+    {
         if (isset($_POST['id'])) {
             $model = ApiHits::model()->findByPk($_POST['id']);
         } else {
             $model = new ApiHits();
         }
         $model->name = isset($_POST['name']) ? $_POST['name'] : '';
-		$model->url = isset($_POST['url']) ? $_POST['url'] : '';
+		//$model->url = isset($_POST['url']) ? $_POST['url'] : '';
         $model->is_active = isset($_POST['is_active']) ? intval($_POST['is_active']) : 0;
         $model->city = isset($_POST['city']) ? $_POST['city'] : '';
         $model->text = isset($_POST['text']) ? $_POST['text'] : '';
@@ -77,9 +101,6 @@ class HitsController extends Controller
 		$model->h1 = isset($_POST['description']) ? $_POST['h1'] : '';
         $model->description = isset($_POST['description']) ? $_POST['description'] : '';
         $model->contacts = isset($_POST['contacts']) ? $_POST['contacts'] : '';
-        $model->save();
-
-        $model->refresh();
 
         header('Content-Type: application/json');
         echo json_encode($model->toArray());
